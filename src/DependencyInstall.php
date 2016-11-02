@@ -105,8 +105,22 @@ class DependencyInstall
         // TODO: provide output based on composer verbosity setting
 
         $processBuilder = new ProcessBuilder(['bower', 'install']);
-        $processBuilder->setWorkingDirectory('');
+        $processBuilder->setWorkingDirectory($this->getWorkingDirectory());
 
         return $processBuilder->getProcess();
+    }
+
+    /**
+     * Get the working directory for executing bower install
+     *
+     * @return string
+     */
+    private function getWorkingDirectory()
+    {
+        if (!empty($this->options['working-directory'])) {
+            return $this->options['working-directory'];
+        }
+
+        return getcwd();
     }
 }
