@@ -31,6 +31,8 @@ class DependencyInstall
     {
         // TODO: load options from CLI
         // TODO: allow custom binary path/name
+        // TODO: allow custom working directory
+        // TODO: allow working directory to be defined with a package prefix
 
         $processBuilder = new ProcessBuilder(['bower', 'install']);
         $processBuilder->getProcess()->mustRun();
