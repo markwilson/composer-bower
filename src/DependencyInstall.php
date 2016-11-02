@@ -3,6 +3,7 @@
 namespace ComposerBower;
 
 use Composer\Script\Event;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -29,13 +30,19 @@ class DependencyInstall
      */
     public static function execute(Event $event)
     {
-        // TODO: load options from CLI
-        // TODO: allow custom binary path/name
-        // TODO: allow custom working directory
-        // TODO: allow working directory to be defined with a package prefix
+        (new self(self::getOptions($event)))->run();
+    }
 
-        $processBuilder = new ProcessBuilder(['bower', 'install']);
-        $processBuilder->getProcess()->mustRun();
+    /**
+     * DependencyInstall constructor.
+     *
+     * @param array $options Extra options
+     */
+    public function __construct(array $options)
+    {
+        // TODO: validate $options
+
+        $this->options = $options;
     }
 
     /**
@@ -47,11 +54,41 @@ class DependencyInstall
      */
     private static function getOptions(Event $event)
     {
-        $extras = $event->getComposer->getPackage()->getExtra();
+        $extras = $event->getComposer()->getPackage()->getExtra();
         if (empty($extras[self::EXTRA_OPTIONS_KEY])) {
             return [];
         }
 
         return $extras[self::EXTRA_OPTIONS_KEY];
+    }
+
+    /**
+     * Run the process
+     *
+     * @return void
+     */
+    private function run()
+    {
+        $process = self::buildProcess();
+
+        $process->mustRun();
+    }
+
+    /**
+     * Build the `bower install` process
+     *
+     * @return Process
+     */
+    private function buildProcess()
+    {
+        // TODO: load options from CLI
+        // TODO: allow custom binary path/name
+        // TODO: allow custom working directory
+        // TODO: allow working directory to be defined with a package prefix
+
+        $processBuilder = new ProcessBuilder(['bower', 'install']);
+        $processBuilder->setWorkingDirectory('');
+
+        return $processBuilder->getProcess();
     }
 }
