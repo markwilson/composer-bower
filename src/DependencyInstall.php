@@ -69,12 +69,14 @@ class DependencyInstall
      */
     public function __construct(Event $event, array $options)
     {
+        $this->composer = $event->getComposer();
         $this->options = $options;
 
         // TODO: validate $options
         // TODO: detect bower.json before trying to execute
-
-        $this->composer = $event->getComposer();
+        if ('' === $this->getWorkingDirectory()) {
+            throw new \RuntimeException(sprintf('Working directory does not exist: %s', $this->getWorkingDirectory(false)));
+        }
     }
 
     /**
