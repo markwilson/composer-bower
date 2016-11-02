@@ -113,9 +113,11 @@ class DependencyInstall
     /**
      * Get the working directory for executing bower install
      *
+     * @param boolean $realPath Use the realpath?
+     *
      * @return string
      */
-    private function getWorkingDirectory()
+    private function getWorkingDirectory($realPath = true)
     {
         $cwd = getcwd();
 
@@ -125,6 +127,12 @@ class DependencyInstall
 
         $suffix = !empty($this->options['working-directory']) ? $this->options['working-directory'] : '';
 
-        return realpath($cwd . '/' . $suffix);
+        $path = $cwd . '/' . $suffix;
+
+        if ($realPath) {
+            return realpath($path);
+        }
+
+        return $path;
     }
 }
