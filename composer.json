@@ -1,0 +1,21 @@
+{
+    "name": "markwilson/composer-bower",
+    "description": "Install Bower dependencies on Composer install/update",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark Wilson",
+            "email": "mark@89allport.co.uk"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "ComposerBower\\": "src"
+        }
+    },
+    "require": {
+        "symfony/process": "^3.1"
+    }
+}
