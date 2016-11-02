@@ -41,6 +41,7 @@ class DependencyInstall
     public function __construct(array $options)
     {
         // TODO: validate $options
+        // TODO: detect bower.json before trying to execute
 
         $this->options = $options;
     }
@@ -81,10 +82,10 @@ class DependencyInstall
      */
     private function buildProcess()
     {
-        // TODO: load options from CLI
         // TODO: allow custom binary path/name
         // TODO: allow custom working directory
         // TODO: allow working directory to be defined with a package prefix
+        // TODO: provide output based on composer verbosity setting
 
         $processBuilder = new ProcessBuilder(['bower', 'install']);
         $processBuilder->setWorkingDirectory('');
