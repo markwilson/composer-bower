@@ -2,7 +2,7 @@
 
 namespace ComposerBower;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -16,11 +16,11 @@ class DependencyInstall
     /**
      * Execute the Bower installer
      *
-     * @param CommandEvent $event Command event
+     * @param Event $event Event
      *
      * @return void
      */
-    public static function execute(CommandEvent $event)
+    public static function execute(Event $event)
     {
         // TODO: load options from CLI
         // TODO: allow custom binary path/name
