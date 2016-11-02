@@ -2,6 +2,7 @@
 
 namespace ComposerBower;
 
+use Composer\Composer;
 use Composer\Script\Event;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -22,6 +23,20 @@ class DependencyInstall
     const EXTRA_OPTIONS_KEY = 'composer-bower';
 
     /**
+     * Options
+     *
+     * @var array
+     */
+    private $options;
+
+    /**
+     * Composer
+     *
+     * @var Composer
+     */
+    private $composer;
+
+    /**
      * Execute the Bower installer
      *
      * @param Event $event Event
@@ -30,20 +45,22 @@ class DependencyInstall
      */
     public static function execute(Event $event)
     {
-        (new self(self::getOptions($event)))->run();
+        (new self($event))->run();
     }
 
     /**
      * DependencyInstall constructor.
      *
-     * @param array $options Extra options
+     * @param Event $event Composer scripts event
      */
-    public function __construct(array $options)
+    public function __construct(Event $event)
     {
+        $this->options = $this->getOptions($event);
+
         // TODO: validate $options
         // TODO: detect bower.json before trying to execute
 
-        $this->options = $options;
+        $this->composer = $event->getComposer();
     }
 
     /**
