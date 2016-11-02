@@ -100,8 +100,6 @@ class DependencyInstall
     private function buildProcess()
     {
         // TODO: allow custom binary path/name
-        // TODO: allow custom working directory
-        // TODO: allow working directory to be defined with a package prefix
         // TODO: provide output based on composer verbosity setting
 
         $processBuilder = new ProcessBuilder(['bower', 'install']);
