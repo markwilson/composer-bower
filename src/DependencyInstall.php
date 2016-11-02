@@ -14,6 +14,13 @@ use Symfony\Component\Process\ProcessBuilder;
 class DependencyInstall
 {
     /**
+     * Key used in composer.json extras array
+     *
+     * @const string
+     */
+    const EXTRA_OPTIONS_KEY = 'composer-bower';
+
+    /**
      * Execute the Bower installer
      *
      * @param Event $event Event
@@ -27,5 +34,22 @@ class DependencyInstall
 
         $processBuilder = new ProcessBuilder(['bower', 'install']);
         $processBuilder->getProcess()->mustRun();
+    }
+
+    /**
+     * Get the composer.json extra options
+     *
+     * @param Event $event Event
+     *
+     * @return array
+     */
+    private static function getOptions(Event $event)
+    {
+        $extras = $event->getComposer->getPackage()->getExtra();
+        if (empty($extras[self::EXTRA_OPTIONS_KEY])) {
+            return [];
+        }
+
+        return $extras[self::EXTRA_OPTIONS_KEY];
     }
 }
