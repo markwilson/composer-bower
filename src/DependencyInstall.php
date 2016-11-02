@@ -45,17 +45,21 @@ class DependencyInstall
      */
     public static function execute(Event $event)
     {
-        (new self($event))->run();
+        $options = self::getOptions($event);
+
+        // TODO: check if options is an array of arrays so bower can be executed in multiple locations
+        (new self($event, $options))->run();
     }
 
     /**
      * DependencyInstall constructor.
      *
-     * @param Event $event Composer scripts event
+     * @param Event $event   Composer scripts event
+     * @param array $options Configuration options
      */
-    public function __construct(Event $event)
+    public function __construct(Event $event, array $options)
     {
-        $this->options = $this->getOptions($event);
+        $this->options = $options;
 
         // TODO: validate $options
         // TODO: detect bower.json before trying to execute
