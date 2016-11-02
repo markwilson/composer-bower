@@ -47,6 +47,9 @@ class DependencyInstall
     {
         $options = self::getOptions($event);
 
+        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+        require_once $vendorDir . '/autoload.php';
+
         if (self::containsMultipleConfigurations($options)) {
             $configurations = $options;
         } else {
@@ -100,7 +103,7 @@ class DependencyInstall
      */
     private static function containsMultipleConfigurations(array $options)
     {
-        return array_keys($options) !== range(0, count($options) - 1);
+        return \array_is_indexed($options);
     }
 
     /**
