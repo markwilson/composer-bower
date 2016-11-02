@@ -47,8 +47,15 @@ class DependencyInstall
     {
         $options = self::getOptions($event);
 
-        // TODO: check if options is an array of arrays so bower can be executed in multiple locations
-        (new self($event, $options))->run();
+        if (self::containsMultipleConfigurations($options)) {
+            $configurations = $options;
+        } else {
+            $configurations = [$options];
+        }
+
+        foreach ($configurations as $options) {
+            (new self($event, $options))->run();
+        }
     }
 
     /**
@@ -82,6 +89,18 @@ class DependencyInstall
         }
 
         return $extras[self::EXTRA_OPTIONS_KEY];
+    }
+
+    /**
+     * Contains multiple configurations
+     *
+     * @param array $options Configuration options
+     *
+     * @return boolean
+     */
+    private static function containsMultipleConfigurations(array $options)
+    {
+        return array_keys($options) !== range(0, count($options) - 1);
     }
 
     /**
