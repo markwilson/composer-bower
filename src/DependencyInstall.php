@@ -73,9 +73,13 @@ class DependencyInstall
         $this->options = $options;
 
         // TODO: validate $options
-        // TODO: detect bower.json before trying to execute
         if ('' === $this->getWorkingDirectory()) {
             throw new \RuntimeException(sprintf('Working directory does not exist: %s', $this->getWorkingDirectory(false)));
+        }
+
+        $bowerPath = realpath($this->getWorkingDirectory(false) . '/bower.json');
+        if ('' === $bowerPath) {
+            throw new \RuntimeException(sprintf('No bower.json found: ', $bowerPath));
         }
     }
 
