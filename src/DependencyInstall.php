@@ -117,10 +117,14 @@ class DependencyInstall
      */
     private function getWorkingDirectory()
     {
-        if (!empty($this->options['working-directory'])) {
-            return $this->options['working-directory'];
+        $cwd = getcwd();
+
+        if (!empty($this->options['package'])) {
+            $cwd = $this->composer->getConfig()->get('vendor-dir') . '/' . $this->options['package'];
         }
 
-        return getcwd();
+        $suffix = !empty($this->options['working-directory']) ? $this->options['working-directory'] : '';
+
+        return realpath($cwd . '/' . $suffix);
     }
 }
